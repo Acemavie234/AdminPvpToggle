@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "adminpvptoggle",
+  "version": "${version}",
+  "name": "AdminPvpToggle",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/adminpvptoggle/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "fabric-datagen": [
+      "eu.acemavie.adminpvptoggle.client.AdminpvptoggleDataGenerator"
+    ],
+    "main": [
+      "eu.acemavie.adminpvptoggle.Adminpvptoggle"
+    ]
+  },
+  "mixins": [
+    "adminpvptoggle.mixins.json",
+    {
+      "config": "adminpvptoggle.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

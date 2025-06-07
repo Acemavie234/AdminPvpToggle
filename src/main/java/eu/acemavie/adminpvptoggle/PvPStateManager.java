@@ -15,9 +15,30 @@ public class PvPStateManager {
     private final Set<String> pvpDisabledPlayers = new HashSet<>();
     private final Gson gson = new Gson();
 
+    private boolean maceDisabled = false;
+
+
     public PvPStateManager(Path filePath) {
         this.filePath = filePath;
     }
+
+
+    public boolean isMaceDisabled() {
+        return maceDisabled;
+    }
+
+    public void setMaceDisabled(boolean disabled) {
+        this.maceDisabled = disabled;
+        if(disabled) { pvpDisabledPlayers.add("macedisabledhhehehheilazy"); } else { pvpDisabledPlayers.remove("macedisabledhhehehheilazy");}
+
+    }
+
+    public boolean toggleMacePvP() {
+        maceDisabled = !maceDisabled;
+        if(maceDisabled) { pvpDisabledPlayers.add("macedisabledhhehehheilazy"); } else { pvpDisabledPlayers.remove("macedisabledhhehehheilazy");}
+        return maceDisabled;
+    }
+
 
     public boolean isPvPDisabled(String playerName) {
         return pvpDisabledPlayers.contains(playerName.toLowerCase());
@@ -37,7 +58,13 @@ public class PvPStateManager {
             Type type = new TypeToken<Set<String>>(){}.getType();
             Set<String> loaded = gson.fromJson(json, type);
             pvpDisabledPlayers.clear();
-            if (loaded != null) pvpDisabledPlayers.addAll(loaded);
+            if (loaded != null){
+                pvpDisabledPlayers.addAll(loaded);
+                if(pvpDisabledPlayers.contains("macedisabledhhehehheilazy")) {
+                    maceDisabled = true;
+                }
+            }
+
         } catch (IOException e) {
             System.err.println("Failed to load PvP states: " + e.getMessage());
         }

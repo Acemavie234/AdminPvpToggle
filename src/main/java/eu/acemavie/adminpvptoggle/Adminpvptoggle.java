@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -42,6 +43,7 @@ public class Adminpvptoggle implements ModInitializer {
             }
             return ActionResult.PASS;
         });
+
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             Path savePath = server.getSavePath(WorldSavePath.ROOT).resolve("pvp_states.json");

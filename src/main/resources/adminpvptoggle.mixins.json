@@ -4,6 +4,7 @@
   "package": "eu.acemavie.adminpvptoggle.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "FireworkEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

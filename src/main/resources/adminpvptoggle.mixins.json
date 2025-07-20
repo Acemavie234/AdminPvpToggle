@@ -4,8 +4,16 @@
   "package": "eu.acemavie.adminpvptoggle.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BedBlockMixin",
+    "BlockMixin",
+    "BucketItemMixin",
+    "EndCrystalEntityMixin",
     "FireworkEntityMixin",
-    "LivingEntityMixin"
+    "FishingBobberEntityMixin",
+    "FlintAndSteelItemMixin",
+    "LivingEntityMixin",
+    "LivingEntityPushMixin",
+    "RespawnBlockAnchorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

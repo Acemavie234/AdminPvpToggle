@@ -24,7 +24,8 @@ public class FireworkEntityMixin {
     private void cancelExplosion(CallbackInfo ci) {
         Entity shooter = ((ProjectileEntity)(Object)this).getOwner();
         if (shooter != null) {
-            if (shooter instanceof PlayerEntity player && Adminpvptoggle.stateManager.isPvPDisabled(player.getName().getString())) {
+            if (shooter instanceof PlayerEntity player && Adminpvptoggle.pvpStateManager.isInList(player.getName().getString())) {
+
                 Random rd = new Random();
                 if(rd.nextBoolean()) player.sendMessage(Text.literal("§cYou can't launch pyrotechnic artillery death at others while your PvP is disabled!"), true);
                 else player.sendMessage(Text.literal("§cYou don’t get to cremate players with sky-explosives while wrapped in your no-PvP diaper."), true);

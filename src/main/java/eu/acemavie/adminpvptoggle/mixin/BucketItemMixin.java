@@ -2,8 +2,6 @@ package eu.acemavie.adminpvptoggle.mixin;
 
 import eu.acemavie.adminpvptoggle.Adminpvptoggle;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
@@ -33,14 +31,14 @@ public class BucketItemMixin {
             ItemStack offHandStack = player.getOffHandStack();
             if (bucketStack.getItem() == Items.LAVA_BUCKET || offHandStack.getItem() == Items.LAVA_BUCKET) {
                 String name = player.getName().getString();
-                if (Adminpvptoggle.stateManager != null && Adminpvptoggle.stateManager.isPvPDisabled(name)) {
+                if (Adminpvptoggle.pvpStateManager != null && Adminpvptoggle.pvpStateManager.isInList(name)) {
                     Box area = new Box(
                             pos.getX() - 5,-64 , pos.getZ() - 5,
                             pos.getX() + 5, 320, pos.getZ() + 5
                     );
 
                     List<PlayerEntity> nearbyPlayers = world.getEntitiesByClass(PlayerEntity.class, area,
-                            other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator());
+                            other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator() && !Adminpvptoggle.lindpriiStateManager.isInList(other.getName().getString()));
 
                     if (!nearbyPlayers.isEmpty()) {
                         player.sendMessage(Text.literal("§cPlease follow the geneva convention while your PvP is disabled!"), true);

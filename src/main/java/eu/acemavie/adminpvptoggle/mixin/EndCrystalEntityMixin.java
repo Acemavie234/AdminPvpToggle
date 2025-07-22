@@ -19,14 +19,14 @@ public class EndCrystalEntityMixin {
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void onDamage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (source.getAttacker() instanceof PlayerEntity attacker) {
-            if (Adminpvptoggle.stateManager == null) return;
+            if (Adminpvptoggle.pvpStateManager == null) return;
 
             String name = attacker.getName().getString();
-            if (Adminpvptoggle.stateManager.isPvPDisabled(name)) {
+            if (Adminpvptoggle.pvpStateManager.isInList(name)) {
                 Vec3d crystalPos = ((EndCrystalEntity)(Object)this).getPos();
                 Box radius = new Box(crystalPos, crystalPos).expand(6.0);
                 boolean playerNearby = !world.getEntitiesByClass(PlayerEntity.class, radius,
-                        other -> !other.getUuid().equals(attacker.getUuid()) && !other.isSpectator()).isEmpty();
+                        other -> !other.getUuid().equals(attacker.getUuid()) && !other.isSpectator()  && !Adminpvptoggle.lindpriiStateManager.isInList(other.getName().getString())).isEmpty();
 
                 if (playerNearby) {
                     attacker.sendMessage(Text.literal("§cYou can't harass other players with end crystals while your PvP is disabled!"), true);

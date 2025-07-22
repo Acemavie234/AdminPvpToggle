@@ -31,9 +31,9 @@ public abstract class BlockMixin {
                         base.getX() - 1, base.getY(),     base.getZ() - 1,
                         base.getX() + 2, base.getY() - 384, base.getZ() + 2
                 );
-                boolean playerUnderneath = !world.getEntitiesByClass(PlayerEntity.class, box, other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator()).isEmpty();
+                boolean playerUnderneath = !world.getEntitiesByClass(PlayerEntity.class, box, other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator() && !other.isSpectator() && !Adminpvptoggle.lindpriiStateManager.isInList(other.getName().getString())).isEmpty();
                 if (playerUnderneath) {
-                    if (Adminpvptoggle.stateManager.isPvPDisabled(player.getName().getString())) {
+                    if (Adminpvptoggle.pvpStateManager.isInList(player.getName().getString())) {
                         player.sendMessage(Text.of("§cYou cannot smash other people's skulls with anvils while your PvP is disabled!"), true);
                         world.setBlockState(pos, Blocks.AIR.getDefaultState());
                         ci.cancel();
@@ -46,9 +46,9 @@ public abstract class BlockMixin {
                         base.getX() + 2, base.getY() - 384, base.getZ() + 2
                 );
 
-                boolean playerUnderneath = !world.getEntitiesByClass(PlayerEntity.class, box, other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator()).isEmpty();
+                boolean playerUnderneath = !world.getEntitiesByClass(PlayerEntity.class, box, other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator()  && !other.isSpectator() && !Adminpvptoggle.lindpriiStateManager.isInList(other.getName().getString())).isEmpty();
                 if (playerUnderneath) {
-                    if (Adminpvptoggle.stateManager.isPvPDisabled(player.getName().getString())) {
+                    if (Adminpvptoggle.pvpStateManager.isInList(player.getName().getString())) {
                         player.sendMessage(Text.of("§cBurying people alive is against the geneva convention while your PvP is disabled!"), true);
                         world.setBlockState(pos, Blocks.AIR.getDefaultState());
                         ci.cancel();

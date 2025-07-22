@@ -25,10 +25,10 @@ public class FlintAndSteelItemMixin {
         World world = context.getWorld();
         BlockPos blockPos = context.getBlockPos();
 
-        if(!Adminpvptoggle.stateManager.isPvPDisabled(player.getName().getString())) return;
+        if(!Adminpvptoggle.pvpStateManager.isInList(player.getName().getString())) return;
 
         List<PlayerEntity> nearbyPlayers = world.getEntitiesByClass(PlayerEntity.class, new Box(blockPos).expand(5),
-                other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator());
+                other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator() && !Adminpvptoggle.lindpriiStateManager.isInList(other.getName().getString()));
 
         if (!nearbyPlayers.isEmpty()) {
             player.sendMessage(Text.literal("§cPlease tell other players to move to a safe distance from the fire!"), true);

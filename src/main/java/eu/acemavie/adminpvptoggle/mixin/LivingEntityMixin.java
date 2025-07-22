@@ -24,6 +24,7 @@ public abstract class LivingEntityMixin {
         Entity attacker = source.getAttacker();
         Entity projectile = source.getSource();
 
+
         PlayerEntity shooter = null;
         if (attacker instanceof PlayerEntity) {
             shooter = (PlayerEntity) attacker;
@@ -32,11 +33,14 @@ public abstract class LivingEntityMixin {
             if (owner instanceof PlayerEntity) shooter = (PlayerEntity) owner;
         }
 
-        if (shooter != null && ((Object) this) instanceof PlayerEntity) {
-            String name = shooter.getName().getString();
-            if (Adminpvptoggle.stateManager != null && Adminpvptoggle.stateManager.isPvPDisabled(name)) {
-                shooter.sendMessage(Text.literal("§cYour PvP is currently disabled!"), true);
-                cir.setReturnValue(false); // Cancel damage
+        if (shooter != null && ((Object) this) instanceof PlayerEntity victim) {
+
+            if (!Adminpvptoggle.lindpriiStateManager.isInList(victim.getName().getString())) {
+                String name = shooter.getName().getString();
+                if (Adminpvptoggle.pvpStateManager != null && Adminpvptoggle.pvpStateManager.isInList(name)) {
+                    shooter.sendMessage(Text.literal("§cYour PvP is currently disabled!"), true);
+                    cir.setReturnValue(false); // Cancel damage
+                }
             }
         }
     }

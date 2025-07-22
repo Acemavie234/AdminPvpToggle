@@ -1,13 +1,12 @@
 package eu.acemavie.adminpvptoggle;
 
 import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.server.command.CommandManager;
+import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
 import static com.mojang.brigadier.arguments.BoolArgumentType.bool;
 import static com.mojang.brigadier.arguments.BoolArgumentType.getBool;
@@ -18,13 +17,13 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class PvPCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(literal("pvp")
-                .requires(source -> source.hasPermissionLevel(4))
-                .then(literal("toggle")
+                .requires(source -> Permissions.check(source, "adminpvptoggle.pvp", 4))
+                .then(literal("toggle").requires(source -> Permissions.check(source, "adminpvptoggle.pvp.toggle", 4))
                         .then(argument("targets", players())
                                 .executes(ctx -> {
                                     Collection<ServerPlayerEntity> targets = getPlayers(ctx, "targets");
                                     for (ServerPlayerEntity target : targets) {
-                                        boolean disabled = Adminpvptoggle.stateManager.togglePvP(target.getName().getString());
+                                        boolean disabled = Adminpvptoggle.pvpStateManager.togglePvP(target.getName().getString());
 
                                         target.sendMessage(
                                                 disabled
@@ -38,7 +37,7 @@ public class PvPCommand {
                                                 true
                                         );
                                     }
-                                    Adminpvptoggle.stateManager.save();
+                                    Adminpvptoggle.pvpStateManager.save();
                                     return 1;
                                 })
                                 .then(argument("silent", bool())
@@ -47,7 +46,7 @@ public class PvPCommand {
                                             boolean silent = getBool(ctx, "silent");
 
                                             for (ServerPlayerEntity target : targets) {
-                                                boolean disabled = Adminpvptoggle.stateManager.togglePvP(target.getName().getString());
+                                                boolean disabled = Adminpvptoggle.pvpStateManager.togglePvP(target.getName().getString());
 
                                                 if (!silent) {
                                                     target.sendMessage(
@@ -63,31 +62,31 @@ public class PvPCommand {
                                                     );
                                                 }
                                             }
-                                            Adminpvptoggle.stateManager.save();
+                                            Adminpvptoggle.pvpStateManager.save();
                                             return 1;
                                         })
                                 )
                         )
                 )
-                .then(literal("mace")
+                .then(literal("mace").requires(source -> Permissions.check(source, "adminpvptoggle.pvp.mace", 4))
                         .executes(ctx -> {
-                            boolean disabled = Adminpvptoggle.stateManager.toggleMacePvP();
+                            boolean disabled = Adminpvptoggle.pvpStateManager.toggleMacePvP();
                             ctx.getSource().sendFeedback(
                                     () -> Text.literal(disabled ? "§cMace PvP has been disabled." : "§aMace PvP has been enabled."),
                                     true
                             );
-                            Adminpvptoggle.stateManager.save();
+                            Adminpvptoggle.pvpStateManager.save();
                             return 1;
                         })
                         .then(argument("disable", bool())
                                 .executes(ctx -> {
                                     boolean disable = getBool(ctx, "disable");
-                                    Adminpvptoggle.stateManager.setMaceDisabled(disable);
+                                    Adminpvptoggle.pvpStateManager.setMaceDisabled(disable);
                                     ctx.getSource().sendFeedback(
                                             () -> Text.literal(disable ? "§cMace PvP has been disabled." : "§aMace PvP has been enabled."),
                                             true
                                     );
-                                    Adminpvptoggle.stateManager.save();
+                                    Adminpvptoggle.pvpStateManager.save();
                                     return 1;
                                 })
                         )

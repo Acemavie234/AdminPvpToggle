@@ -28,10 +28,12 @@ public abstract class FishingBobberEntityMixin extends Entity {
     private void preventHookingPlayers(CallbackInfo ci) {
         Entity owner = ((FishingBobberEntity)(Object)this).getOwner();
         if(owner instanceof ServerPlayerEntity player) {
-            if(Adminpvptoggle.stateManager.isPvPDisabled(player.getName().getString())) {
-                if (hookedEntity instanceof PlayerEntity) {
-                    hookedEntity = null;
-                    player.sendMessage(Text.literal("§cYour PvP's off — you can't go angling for spinal cords just yet."), true);
+            if(Adminpvptoggle.pvpStateManager.isInList(player.getName().getString())) {
+                if (hookedEntity instanceof PlayerEntity victim) {
+                    if (!Adminpvptoggle.lindpriiStateManager.isInList(victim.getName().getString())) {
+                        hookedEntity = null;
+                        player.sendMessage(Text.literal("§cYour PvP's off — you can't go angling for spinal cords just yet."), true);
+                    }
                 }
             }
         }

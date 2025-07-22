@@ -15,6 +15,7 @@ public class PvPStateManager {
     private final Set<String> pvpDisabledPlayers = new HashSet<>();
     private final Gson gson = new Gson();
 
+
     private boolean maceDisabled = false;
 
 
@@ -29,18 +30,25 @@ public class PvPStateManager {
 
     public void setMaceDisabled(boolean disabled) {
         this.maceDisabled = disabled;
-        if(disabled) { pvpDisabledPlayers.add("macedisabledhhehehheilazy"); } else { pvpDisabledPlayers.remove("macedisabledhhehehheilazy");}
+        if (disabled) { pvpDisabledPlayers.add("macedisabledhhehehheilazy"); } else { pvpDisabledPlayers.remove("macedisabledhhehehheilazy");}
 
     }
 
     public boolean toggleMacePvP() {
         maceDisabled = !maceDisabled;
-        if(maceDisabled) { pvpDisabledPlayers.add("macedisabledhhehehheilazy"); } else { pvpDisabledPlayers.remove("macedisabledhhehehheilazy");}
+        if (maceDisabled) { pvpDisabledPlayers.add("macedisabledhhehehheilazy"); } else { pvpDisabledPlayers.remove("macedisabledhhehehheilazy");}
         return maceDisabled;
     }
 
+    public void add(String playerName) {
+        pvpDisabledPlayers.add(playerName);
+    }
 
-    public boolean isPvPDisabled(String playerName) {
+    public void remove(String playerName) {
+        pvpDisabledPlayers.remove(playerName);
+    }
+
+    public boolean isInList(String playerName) {
         return pvpDisabledPlayers.contains(playerName.toLowerCase());
     }
 
@@ -49,6 +57,14 @@ public class PvPStateManager {
         boolean disabled = !pvpDisabledPlayers.remove(name);
         if (disabled) pvpDisabledPlayers.add(name);
         return disabled;
+    }
+
+    public Set<String> getSet() {
+        return pvpDisabledPlayers;
+    }
+
+    public void clear() {
+        pvpDisabledPlayers.clear();
     }
 
     public void load() {

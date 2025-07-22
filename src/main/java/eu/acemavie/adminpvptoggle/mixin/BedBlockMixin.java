@@ -23,10 +23,10 @@ public class BedBlockMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
     private void onBedInteract(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         if (world.getDimension().bedWorks()) return;
-        if (Adminpvptoggle.stateManager.isPvPDisabled(player.getName().getString())) {
+        if (Adminpvptoggle.pvpStateManager.isInList(player.getName().getString())) {
 
             List<PlayerEntity> nearbyPlayers = world.getEntitiesByClass(PlayerEntity.class, player.getBoundingBox().expand(6),
-                    other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator());
+                    other -> !other.getUuid().equals(player.getUuid()) && !other.isSpectator()  && !other.isSpectator() && !Adminpvptoggle.lindpriiStateManager.isInList(other.getName().getString()));
 
             if (!nearbyPlayers.isEmpty()) {
                 player.sendMessage(Text.literal("§cIf you are trying to mine netherite, tell other players to move to a safe distance. \n If you are a jihadi suicide bomber, fuck off, please! \n If you do not match any of the cases above, you are lying. \n In the rare case of still not matching any of the cases above, fuck off anyway!"), false);

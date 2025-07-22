@@ -18,8 +18,9 @@ public abstract class LivingEntityPushMixin extends Entity {
     @Override
     public void pushAwayFrom(Entity entity) {
         if ((Object) this instanceof PlayerEntity self && entity instanceof PlayerEntity other) {
-            if (Adminpvptoggle.stateManager.isPvPDisabled(self.getName().getString()) ||
-                    Adminpvptoggle.stateManager.isPvPDisabled(other.getName().getString())) {
+            if (Adminpvptoggle.pvpStateManager.isInList(self.getName().getString()) ||
+                    Adminpvptoggle.pvpStateManager.isInList(other.getName().getString())) {
+
                 return;
             }
         }
